@@ -17,7 +17,7 @@ for (let i = 0; i < pieces.length; i++) {
     <p>
       ${pieces[i].description ?? "Pas de description pour le moment"}
     </p>
-    <p>
+    <p class="${pieces[i].disponibilite ? "en-stock" : "rupture"}">
       ${pieces[i].disponibilite ? "En stock" : "Rupture de stock"}
     </p>
   </div>

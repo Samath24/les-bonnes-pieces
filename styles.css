@@ -53,3 +53,11 @@ main {
 	margin-top: 4px;
 	margin-bottom: 4px;
 }
+
+.en-stock {
+	color: rgb(0, 211, 0)
+}
+
+.rupture {
+	color: rgb(255, 0, 0);
+}
