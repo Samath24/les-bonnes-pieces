@@ -9,12 +9,17 @@ for (let i = 0; i < pieces.length; i++) {
     <img src=${pieces[i].image} />
     <h2>${pieces[i].nom}</h2>
     <p>
-      Prix: ${pieces[i].prix} €
+      Prix: ${pieces[i].prix} € (${pieces[i].prix < 35 ? "€" : "€€€"})
     </p>
     <p>
-      ${pieces[i].categorie}
+      ${pieces[i].categorie ?? "Aucune catégorie"}
+    </p>
+    <p>
+      ${pieces[i].description ?? "Pas de description pour le moment"}
+    </p>
+    <p>
+      ${pieces[i].disponibilite ? "En stock" : "Rupture de stock"}
     </p>
   </div>
   `;
-  
 }
