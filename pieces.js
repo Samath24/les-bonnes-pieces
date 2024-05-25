@@ -26,6 +26,28 @@ for (let i = 0; i < pieces.length; i++) {
 
 const btnTrier = document.querySelector(".btn-trier");
 btnTrier.addEventListener("click", () => {
-  pieces.sort( (a,b) => a.prix - b.prix );
-  console.log(pieces); 
+  const piecesTriees = Array.from(pieces);
+  piecesTriees.sort( (a,b) => a.prix - b.prix );
+  console.log(piecesTriees); 
+});
+
+const btnTrierDecroissant = document.querySelector(".btn-trier-decroissant");
+btnTrierDecroissant.addEventListener("click", () => {
+  const piecesTriees = Array.from(pieces);
+  piecesTriees.sort( (a,b) => b.prix - a.prix );
+  console.log(piecesTriees); 
+});
+
+const btnFiltrer = document.querySelector(".btn-filtrer");
+btnFiltrer.addEventListener("click", () => {
+  const piecesPrepFiltrage = Array.from(pieces);
+  let piecesFiltrees = piecesPrepFiltrage.filter( (a) => a.prix <= 35 );
+  console.log(piecesFiltrees); 
+});
+
+const btnFiltrerDescription = document.querySelector(".btn-filtrer-description");
+btnFiltrerDescription.addEventListener("click", () => {
+  const piecesPrepFiltrage = Array.from(pieces);
+  let piecesFiltrees = piecesPrepFiltrage.filter( (a) => a.description != null || undefined );
+  console.log(piecesFiltrees); 
 });
