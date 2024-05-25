@@ -23,3 +23,9 @@ for (let i = 0; i < pieces.length; i++) {
   </div>
   `;
 }
+
+const btnTrier = document.querySelector(".btn-trier");
+btnTrier.addEventListener("click", () => {
+  pieces.sort( (a,b) => a.prix - b.prix );
+  console.log(pieces); 
+});
