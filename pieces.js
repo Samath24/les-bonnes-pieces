@@ -48,6 +48,20 @@ btnFiltrer.addEventListener("click", () => {
 const btnFiltrerDescription = document.querySelector(".btn-filtrer-description");
 btnFiltrerDescription.addEventListener("click", () => {
   const piecesPrepFiltrage = Array.from(pieces);
-  let piecesFiltrees = piecesPrepFiltrage.filter( (a) => a.description != null || undefined );
+  let piecesFiltrees = piecesPrepFiltrage.filter( (a) => a.description );
   console.log(piecesFiltrees); 
 });
+
+const nomPieces = pieces.map( piece => piece.nom );
+console.log(nomPieces);
+
+/* const prixPiecesDouble = pieces.forEach(piece => {
+  piece.prix = piece.prix*2
+});
+console.log(prixPiecesDouble); */
+
+const prixPiecesDouble = pieces.map(piece => {
+  return piece.prix * 2;
+});
+console.log(pieces);
+console.log(prixPiecesDouble);
