@@ -57,22 +57,13 @@ btnFiltrerDescription.addEventListener("click", () => {
 });
 
 const nomPieces = pieces.map( piece => piece.nom );
-console.log('nomPieces :');
-console.log(nomPieces);
-
-console.log('pieces avant tests:');
-console.log(pieces);
 
 /* Test de performance sur .forEach() */
 /* const perfStartForEach = performance.now(); */
-const prixPiecesDoubleForEach = Array.from(pieces);
-prixPiecesDoubleForEach.forEach(piece => {
-  piece.prix = piece.prix*2
-});
-console.log('prixPiecesDoubleForEach :');
-console.log(prixPiecesDoubleForEach);
-console.log('pieces :');
-console.log(pieces);
+const prixPiecesDoubleForEach = Array.from(pieces, piece => ({
+  ...piece,
+  prix: piece.prix*2
+}));
 /* const perfEndForEach = performance.now(); */
 
 /* Test de performance sur .map() */
