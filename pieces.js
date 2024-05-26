@@ -59,11 +59,18 @@ btnFiltrerDescription.addEventListener("click", () => {
 /* Méthode pour créer un objet ne conservant que les valeurs souhaitées ( ici, le nom des pièces ) */
 const nomPieces = pieces.map( piece => piece.nom );
 
+const testDouble = structuredClone(pieces);
+testDouble.forEach( (piece) => {
+  piece.prix = piece.prix*2
+})
+console.log('pieces = ', pieces);
+console.log('testDouble = ', testDouble);
+
 /* Deep copy du tableau originel "pieces" : modifier cette copie n'affectera pas les valeurs référencées. A noter la fonction de mappage comme 2nd argument de la méthode Array.from(), qui permet d'ignorer la shallow copy du spreading operator, qui écrase les références pendant le traitement */
-const prixPiecesDoubleArrayFrom = Array.from(pieces, piece => ({
+/* const prixPiecesDoubleArrayFrom = Array.from(pieces, piece => ({
   ...piece,
   'prix': piece.prix*2
-}));
+})); */
 
 /* Deep copy du tableau originel "pieces" : modifier cette copie n'affectera pas les valeurs référencées */
 /* const prixPiecesDoubleMap = pieces.map((piece) => {
@@ -80,8 +87,8 @@ const prixPiecesDoubleArrayFrom = Array.from(pieces, piece => ({
   return piece.prix*2
 }); */
 
-console.log(pieces);
-console.log(prixPiecesDoubleArrayFrom);
+/* console.log(pieces); */
+/* console.log(prixPiecesDoubleArrayFrom); */
 /* console.log(prixPiecesDoubleMap); */
 /* console.log(prixPiecesDoubleForEach); */
 /* console.log(prixPiecesDoubleSpread); */
