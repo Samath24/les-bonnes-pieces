@@ -55,13 +55,12 @@ btnFiltrerDescription.addEventListener("click", () => {
 const nomPieces = pieces.map( piece => piece.nom );
 console.log(nomPieces);
 
-/* const prixPiecesDouble = pieces.forEach(piece => {
+/* pieces.forEach(piece => {
   piece.prix = piece.prix*2
 });
-console.log(prixPiecesDouble); */
+console.log(pieces); */
 
 const prixPiecesDouble = pieces.map(piece => {
   return piece.prix * 2;
 });
-console.log(pieces);
 console.log(prixPiecesDouble);
