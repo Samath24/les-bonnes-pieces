@@ -24,6 +24,7 @@ for (let i = 0; i < pieces.length; i++) {
   `;
 }
 
+/* Bouton de tri par prix croissant */
 const btnTrier = document.querySelector(".btn-trier");
 btnTrier.addEventListener("click", () => {
   const piecesTriees = Array.from(pieces);
@@ -31,6 +32,7 @@ btnTrier.addEventListener("click", () => {
   console.log(piecesTriees); 
 });
 
+/* Bouton de tri par prix décroissant */
 const btnTrierDecroissant = document.querySelector(".btn-trier-decroissant");
 btnTrierDecroissant.addEventListener("click", () => {
   const piecesTriees = Array.from(pieces);
@@ -38,29 +40,51 @@ btnTrierDecroissant.addEventListener("click", () => {
   console.log(piecesTriees); 
 });
 
+/* Bouton de filtre dont le prix est <= 35 */
 const btnFiltrer = document.querySelector(".btn-filtrer");
 btnFiltrer.addEventListener("click", () => {
   const piecesPrepFiltrage = Array.from(pieces);
-  let piecesFiltrees = piecesPrepFiltrage.filter( (a) => a.prix <= 35 );
+  let piecesFiltrees = piecesPrepFiltrage.filter( (piece) => piece.prix <= 35 );
   console.log(piecesFiltrees); 
 });
 
+/* Bouton de filtre excluant les éléments sans description */
 const btnFiltrerDescription = document.querySelector(".btn-filtrer-description");
 btnFiltrerDescription.addEventListener("click", () => {
   const piecesPrepFiltrage = Array.from(pieces);
-  let piecesFiltrees = piecesPrepFiltrage.filter( (a) => a.description );
+  let piecesFiltrees = piecesPrepFiltrage.filter( (piece) => piece.description );
   console.log(piecesFiltrees); 
 });
 
 const nomPieces = pieces.map( piece => piece.nom );
+console.log('nomPieces :');
 console.log(nomPieces);
 
-/* pieces.forEach(piece => {
+console.log('pieces avant tests:');
+console.log(pieces);
+
+/* Test de performance sur .forEach() */
+/* const perfStartForEach = performance.now(); */
+const prixPiecesDoubleForEach = Array.from(pieces);
+prixPiecesDoubleForEach.forEach(piece => {
   piece.prix = piece.prix*2
 });
-console.log(pieces); */
+console.log('prixPiecesDoubleForEach :');
+console.log(prixPiecesDoubleForEach);
+console.log('pieces :');
+console.log(pieces);
+/* const perfEndForEach = performance.now(); */
 
-const prixPiecesDouble = pieces.map(piece => {
-  return piece.prix * 2;
+/* Test de performance sur .map() */
+/* const perfStartMap = performance.now(); */
+const prixPiecesDoubleMap = pieces.map(pieces => {
+  return pieces.prix * 2;
 });
-console.log(prixPiecesDouble);
+console.log(prixPiecesDoubleMap);
+/* const perfEndMap = performance.now(); */
+
+/* Conclusion :
+.forEach() execution time: 0.09999999962747097 ms
+.map() execution time: 0.19999999925494194 ms
+Cloner un tableau puis le modifier via .forEach() est plus intéressant, et de très loin, qu'utiliser .map() et de récupérer le tableau renvoyé
+*/
