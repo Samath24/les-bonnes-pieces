@@ -59,10 +59,60 @@ btnFiltrerDescription.addEventListener("click", () => {
 /* Méthode pour créer un objet ne conservant que les valeurs souhaitées ( ici, le nom des pièces ) */
 const nomPieces = pieces.map( piece => piece.nom );
 
+/* Suppression des éléments dont prix >= à 35. Tableau parcouru de la fin vers le début dans le cadre d'une suppression, pour éviter les décalages d'indices, faisant potentiellement échouer le test sur certains indices */
+for (let i = pieces.length-1; i >= 0; i--) {
+  if ( pieces[i].prix >= 35) {
+    nomPieces.splice(i, 1);
+  }
+}
+
+/* Ce qui revient au même qu'un filtrage, qui a l'avantage d'être plus facile à lire */
+const prepPiecesFiltreesPrix = structuredClone(pieces);
+const piecesFiltreesPrix = prepPiecesFiltreesPrix.filter( (piece) => !(piece.prix >= 35) );
+
 /* Copie du tableau "pieces", multiplication par 2 des prix dans la copie créée, sans affecter le tableau original => nécessité d'une "deep copy" permise par la fonction structuredClone() */
 const testDouble = structuredClone(pieces);
 testDouble.forEach( (piece) => {
-  piece.prix = piece.prix*2
+  piece.prix = piece.prix*2;
 })
-console.log('pieces = ', pieces);
-console.log('testDouble = ', testDouble);
+
+/* Premier jet d'insertion du résultat d'un filtre de prix dans le HTML au noeud ".fiches" */
+/* 
+  @param {array} array - contenant les données à parcourir
+  @param {string} value - indiquant la valeur à afficher
+*/
+const afficherResultatFiltres = (array, value) => {
+  /* console.log('array =', array, 'value =', typeof(value)) */
+  try {
+    let affichageComplet = ``;
+    /* () => { */
+      for (let i = 0; i < array.length; i++) {
+        console.log('array =', array, 'value =', typeof(value))
+        affichageComplet += 
+        `
+          <li>${array[i][value]}</li>
+        `;
+      }
+    /* } */
+    return affichageComplet;
+  } catch (error) {
+    return console.log(error);
+  }
+  
+}
+
+let fichesNode = document.querySelector(".fiches");
+fichesNode.innerHTML += 
+  `
+  <div>
+    <h3>Pièces abordables :</h3>
+    <ul>
+      ${afficherResultatFiltres(piecesFiltreesPrix, 'nom')}
+    </ul>
+  </div>
+  `;
+
+/* Deuxième jet, cette fois en filtrant sur la description */
+const prepPiecesFiltreesDesc = structuredClone(pieces);
+const piecesFiltreesDesc = prepPiecesFiltreesDesc.filter( (piece) => (piece.description) );
+console.log('piecesFiltreesDesc = ', piecesFiltreesDesc)
