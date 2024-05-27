@@ -76,29 +76,24 @@ testDouble.forEach( (piece) => {
   piece.prix = piece.prix*2;
 })
 
-/* Premier jet d'insertion du résultat d'un filtre de prix dans le HTML au noeud ".fiches" */
+/* Premier jet d'insertion du résultat d'un filtre de prix dans le HTML au noeud ".fiches". Utilisation d'une fonction pour pouvoir être appelée depuis le template literal ( littéral de gabarit ), faisant éviter la syntaxe lourde et illisible basée sur createElement / appendChild */
 /* 
   @param {array} array - contenant les données à parcourir
   @param {string} value - indiquant la valeur à afficher
 */
-const afficherResultatFiltres = (array, value) => {
-  /* console.log('array =', array, 'value =', typeof(value)) */
+const afficherResultatFiltresAbordables = () => {
   try {
     let affichageComplet = ``;
-    /* () => { */
-      for (let i = 0; i < array.length; i++) {
-        console.log('array =', array, 'value =', typeof(value))
-        affichageComplet += 
-        `
-          <li>${array[i][value]}</li>
-        `;
-      }
-    /* } */
+    for (let i = 0; i < piecesFiltreesPrix.length; i++) {
+      affichageComplet += 
+      `
+        <li>${piecesFiltreesPrix[i].nom}</li>
+      `;
+    }
     return affichageComplet;
   } catch (error) {
     return console.log(error);
   }
-  
 }
 
 let fichesNode = document.querySelector(".fiches");
@@ -107,12 +102,38 @@ fichesNode.innerHTML +=
   <div>
     <h3>Pièces abordables :</h3>
     <ul>
-      ${afficherResultatFiltres(piecesFiltreesPrix, 'nom')}
+      ${afficherResultatFiltresAbordables()}
     </ul>
   </div>
-  `;
+  `
+;
 
 /* Deuxième jet, cette fois en filtrant sur la description */
 const prepPiecesFiltreesDesc = structuredClone(pieces);
 const piecesFiltreesDesc = prepPiecesFiltreesDesc.filter( (piece) => (piece.description) );
-console.log('piecesFiltreesDesc = ', piecesFiltreesDesc)
+
+const afficherResultatFiltresDisponibles = () => {
+  try {
+    let affichageComplet = ``;
+    for (let i = 0; i < piecesFiltreesDesc.length; i++) {
+      affichageComplet += 
+      `
+        <li>${piecesFiltreesDesc[i].nom} - ${piecesFiltreesDesc[i].prix} €</li>
+      `;
+    }
+    return affichageComplet;
+  } catch (error) {
+    return console.log(error);
+  }
+}
+
+fichesNode.innerHTML += 
+  `
+  <div>
+    <h3>Pièces disponibles :</h3>
+    <ul>
+      ${afficherResultatFiltresDisponibles()}
+    </ul>
+  </div>
+  `
+;
