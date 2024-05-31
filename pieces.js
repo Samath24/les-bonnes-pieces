@@ -2,26 +2,6 @@
 const reponse = await fetch("pieces-autos.json");
 const pieces = await reponse.json();
 
-/* Initialisation */
-/* Affichage de la valeur de l'input range */
-let inputValue = document.querySelector("#range-prix-input");
-let inputAffichage = document.querySelector("#range-prix-affichage");
-inputAffichage.innerHTML = `${inputValue.value} €`; // Donnée initiale, valeur par défaut
-/* Modification de la valeur affichée du paramètre de prix dès que le slider bouge, pour plus de dynamisme, et une meilleure UX */
-inputValue.addEventListener("input", () => {
-  inputAffichage.innerHTML = `${inputValue.value} €`;
-});
-/* Modification de la valeur affichée du paramètre de prix lorsque le slider est relaché, pour une économie de requête et de bande passante */
-inputValue.addEventListener("change", () => {
-  const piecesPrepFiltrage = Array.from(pieces);
-  let piecesFiltrees = piecesPrepFiltrage.filter( (piece) => piece.prix <= inputValue.value );
-  try {
-    genererPieces(piecesFiltrees);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
 /* 
   @param {array} array - contenant les données déjà filtrées des pièces à afficher
  */
@@ -136,3 +116,22 @@ const testDouble = structuredClone(pieces);
 testDouble.forEach( (piece) => {
   piece.prix = piece.prix*2;
 })
+
+/* Affichage de la valeur de l'input range */
+let inputValue = document.querySelector("#range-prix-input");
+let inputAffichage = document.querySelector("#range-prix-affichage");
+inputAffichage.innerHTML = `${inputValue.value} €`; // Donnée initiale, valeur par défaut
+/* Modification de la valeur affichée du paramètre de prix dès que le slider bouge, pour plus de dynamisme, et une meilleure UX */
+inputValue.addEventListener("input", () => {
+  inputAffichage.innerHTML = `${inputValue.value} €`;
+});
+/* Modification de la valeur affichée du paramètre de prix lorsque le slider est relaché, pour une économie de requête et de bande passante */
+inputValue.addEventListener("change", () => {
+  const piecesPrepFiltrage = Array.from(pieces);
+  let piecesFiltrees = piecesPrepFiltrage.filter( (piece) => piece.prix <= inputValue.value );
+  try {
+    genererPieces(piecesFiltrees);
+  } catch (error) {
+    console.log(error);
+  }
+});
