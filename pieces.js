@@ -2,7 +2,7 @@
 const reponse = await fetch("pieces-autos.json");
 const pieces = await reponse.json();
 
-function affichageFiltrage(array) {
+function genererPieces(array) {
   const article = document.querySelector(".fiches");
   article.innerHTML = '';
   for (let i = 0; i < array.length; i++) {
@@ -29,7 +29,7 @@ function affichageFiltrage(array) {
 
 /* Premier affichage, sans filtre */
 try {
-  affichageFiltrage(pieces);
+  genererPieces(pieces);
 } catch (error) {
   console.log(error);
 }
@@ -40,7 +40,7 @@ btnTrier.addEventListener("click", () => {
   const piecesTriees = Array.from(pieces);
   piecesTriees.sort( (a,b) => a.prix - b.prix );
   try {
-    affichageFiltrage(piecesTriees);
+    genererPieces(piecesTriees);
   } catch (error) {
     console.log(error);
   }
@@ -52,7 +52,7 @@ btnTrierDecroissant.addEventListener("click", () => {
   const piecesTriees = Array.from(pieces);
   piecesTriees.sort( (a,b) => b.prix - a.prix );
   try {
-    affichageFiltrage(piecesTriees);
+    genererPieces(piecesTriees);
   } catch (error) {
     console.log(error);
   }
@@ -64,7 +64,7 @@ btnFiltrer.addEventListener("click", () => {
   const piecesPrepFiltrage = Array.from(pieces);
   let piecesFiltrees = piecesPrepFiltrage.filter( (piece) => piece.prix <= 35 );
   try {
-    affichageFiltrage(piecesFiltrees);
+    genererPieces(piecesFiltrees);
   } catch (error) {
     console.log(error);
   }
@@ -76,7 +76,19 @@ btnFiltrerDescription.addEventListener("click", () => {
   const piecesPrepFiltrage = Array.from(pieces);
   let piecesFiltrees = piecesPrepFiltrage.filter( (piece) => piece.description );
   try {
-    affichageFiltrage(piecesFiltrees);
+    genererPieces(piecesFiltrees);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+/* Bouton de filtre excluant les éléments sans description */
+const btnFiltrerOptiques = document.querySelector(".btn-filtrer-optiques");
+btnFiltrerOptiques.addEventListener("click", () => {
+  const piecesPrepFiltrage = Array.from(pieces);
+  let piecesFiltrees = piecesPrepFiltrage.filter( (piece) => piece.categorie === "Optiques" );
+  try {
+    genererPieces(piecesFiltrees);
   } catch (error) {
     console.log(error);
   }
