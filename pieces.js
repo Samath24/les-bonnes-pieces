@@ -1,7 +1,30 @@
-// Récupération des pièces depuis le fichier JSON
+/* Récupération des pièces depuis le fichier JSON */
 const reponse = await fetch("pieces-autos.json");
 const pieces = await reponse.json();
 
+/* Initialisation */
+/* Affichage de la valeur de l'input range */
+let inputValue = document.querySelector("#range-prix-input");
+let inputAffichage = document.querySelector("#range-prix-affichage");
+inputAffichage.innerHTML = `${inputValue.value} €`; // Donnée initiale, valeur par défaut
+/* Modification de la valeur affichée du paramètre de prix dès que le slider bouge, pour plus de dynamisme, et une meilleure UX */
+inputValue.addEventListener("input", () => {
+  inputAffichage.innerHTML = `${inputValue.value} €`;
+});
+/* Modification de la valeur affichée du paramètre de prix lorsque le slider est relaché, pour une économie de requête et de bande passante */
+inputValue.addEventListener("change", () => {
+  const piecesPrepFiltrage = Array.from(pieces);
+  let piecesFiltrees = piecesPrepFiltrage.filter( (piece) => piece.prix <= inputValue.value );
+  try {
+    genererPieces(piecesFiltrees);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+/* 
+  @param {array} array - contenant les données déjà filtrées des pièces à afficher
+ */
 function genererPieces(array) {
   const article = document.querySelector(".fiches");
   article.innerHTML = '';
@@ -113,36 +136,3 @@ const testDouble = structuredClone(pieces);
 testDouble.forEach( (piece) => {
   piece.prix = piece.prix*2;
 })
-
-/* Premier jet d'insertion du résultat d'un filtre de prix dans le HTML au noeud ".fiches". Utilisation d'une fonction pour pouvoir être appelée depuis le template literal ( littéral de gabarit ), faisant éviter la syntaxe lourde et illisible basée sur createElement / appendChild */
-/* 
-  @param {array} array - contenant les données à parcourir
-  @param {string} value - indiquant la valeur à afficher
-*/
-/* let fichesNode = document.querySelector(".fiches");
-
-const afficherResultatFiltresAbordables = () => {
-  try {
-    let affichageComplet = ``;
-    for (let i = 0; i < piecesFiltreesPrix.length; i++) {
-      affichageComplet += 
-      `
-        <li>${piecesFiltreesPrix[i].nom}</li>
-      `;
-    }
-    return affichageComplet;
-  } catch (error) {
-    return console.log(error);
-  }
-}
-
-fichesNode.innerHTML += 
-  `
-  <div>
-    <h3>Pièces abordables :</h3>
-    <ul>
-      ${afficherResultatFiltresAbordables()}
-    </ul>
-  </div>
-  `
-; */
