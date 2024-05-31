@@ -2,26 +2,36 @@
 const reponse = await fetch("pieces-autos.json");
 const pieces = await reponse.json();
 
-for (let i = 0; i < pieces.length; i++) {
+function affichageFiltrage(array) {
   const article = document.querySelector(".fiches");
-  article.innerHTML += `
-  <div class="piece-${pieces[i].id}">
-    <img src=${pieces[i].image} />
-    <h2>${pieces[i].nom}</h2>
-    <p>
-      Prix: ${pieces[i].prix} € (${pieces[i].prix < 35 ? "€" : "€€€"})
-    </p>
-    <p>
-      ${pieces[i].categorie ?? "Aucune catégorie"}
-    </p>
-    <p>
-      ${pieces[i].description ?? "Pas de description pour le moment"}
-    </p>
-    <p class="${pieces[i].disponibilite ? "en-stock" : "rupture"}">
-      ${pieces[i].disponibilite ? "En stock" : "Rupture de stock"}
-    </p>
-  </div>
-  `;
+  article.innerHTML = '';
+  for (let i = 0; i < array.length; i++) {
+    article.innerHTML += `
+    <div class="piece-${array[i].id}">
+      <img src=${array[i].image} />
+      <h2>${array[i].nom}</h2>
+      <p>
+        Prix: ${array[i].prix} € (${array[i].prix < 35 ? "€" : "€€€"})
+      </p>
+      <p>
+        ${array[i].categorie ?? "Aucune catégorie"}
+      </p>
+      <p>
+        ${array[i].description ?? "Pas de description pour le moment"}
+      </p>
+      <p class="${array[i].disponibilite ? "en-stock" : "rupture"}">
+        ${array[i].disponibilite ? "En stock" : "Rupture de stock"}
+      </p>
+    </div>
+    `;
+  }
+}
+
+/* Premier affichage, sans filtre */
+try {
+  affichageFiltrage(pieces);
+} catch (error) {
+  console.log(error);
 }
 
 /* Bouton de tri par prix croissant */
@@ -29,7 +39,11 @@ const btnTrier = document.querySelector(".btn-trier");
 btnTrier.addEventListener("click", () => {
   const piecesTriees = Array.from(pieces);
   piecesTriees.sort( (a,b) => a.prix - b.prix );
-  console.log(piecesTriees); 
+  try {
+    affichageFiltrage(piecesTriees);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 /* Bouton de tri par prix décroissant */
@@ -37,7 +51,11 @@ const btnTrierDecroissant = document.querySelector(".btn-trier-decroissant");
 btnTrierDecroissant.addEventListener("click", () => {
   const piecesTriees = Array.from(pieces);
   piecesTriees.sort( (a,b) => b.prix - a.prix );
-  console.log(piecesTriees); 
+  try {
+    affichageFiltrage(piecesTriees);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 /* Bouton de filtre dont le prix est <= 35 */
@@ -45,7 +63,11 @@ const btnFiltrer = document.querySelector(".btn-filtrer");
 btnFiltrer.addEventListener("click", () => {
   const piecesPrepFiltrage = Array.from(pieces);
   let piecesFiltrees = piecesPrepFiltrage.filter( (piece) => piece.prix <= 35 );
-  console.log(piecesFiltrees); 
+  try {
+    affichageFiltrage(piecesFiltrees);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 /* Bouton de filtre excluant les éléments sans description */
@@ -53,7 +75,11 @@ const btnFiltrerDescription = document.querySelector(".btn-filtrer-description")
 btnFiltrerDescription.addEventListener("click", () => {
   const piecesPrepFiltrage = Array.from(pieces);
   let piecesFiltrees = piecesPrepFiltrage.filter( (piece) => piece.description );
-  console.log(piecesFiltrees); 
+  try {
+    affichageFiltrage(piecesFiltrees);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 /* Méthode pour créer un objet ne conservant que les valeurs souhaitées ( ici, le nom des pièces ) */
@@ -81,6 +107,8 @@ testDouble.forEach( (piece) => {
   @param {array} array - contenant les données à parcourir
   @param {string} value - indiquant la valeur à afficher
 */
+/* let fichesNode = document.querySelector(".fiches");
+
 const afficherResultatFiltresAbordables = () => {
   try {
     let affichageComplet = ``;
@@ -96,7 +124,6 @@ const afficherResultatFiltresAbordables = () => {
   }
 }
 
-let fichesNode = document.querySelector(".fiches");
 fichesNode.innerHTML += 
   `
   <div>
@@ -106,34 +133,4 @@ fichesNode.innerHTML +=
     </ul>
   </div>
   `
-;
-
-/* Deuxième jet, cette fois en filtrant sur la description */
-const prepPiecesFiltreesDesc = structuredClone(pieces);
-const piecesFiltreesDesc = prepPiecesFiltreesDesc.filter( (piece) => (piece.description) );
-
-const afficherResultatFiltresDisponibles = () => {
-  try {
-    let affichageComplet = ``;
-    for (let i = 0; i < piecesFiltreesDesc.length; i++) {
-      affichageComplet += 
-      `
-        <li>${piecesFiltreesDesc[i].nom} - ${piecesFiltreesDesc[i].prix} €</li>
-      `;
-    }
-    return affichageComplet;
-  } catch (error) {
-    return console.log(error);
-  }
-}
-
-fichesNode.innerHTML += 
-  `
-  <div>
-    <h3>Pièces disponibles :</h3>
-    <ul>
-      ${afficherResultatFiltresDisponibles()}
-    </ul>
-  </div>
-  `
-;
+; */
