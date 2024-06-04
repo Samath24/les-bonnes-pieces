@@ -1,3 +1,8 @@
+/* Import */
+import {
+  ajoutListenersAvis
+} from "./avis.js";
+
 /* Récupération des pièces depuis le fichier JSON */
 const reponse = await fetch("pieces-autos.json");
 const pieces = await reponse.json();
@@ -25,9 +30,11 @@ function genererPieces(array) {
       <p class="${array[i].disponibilite ? "en-stock" : "rupture"}">
         ${array[i].disponibilite ? "En stock" : "Rupture de stock"}
       </p>
+      <button data-id=${array[i].id}>Afficher les avis</button>
     </div>
     `;
   }
+  ajoutListenersAvis();
 }
 
 /* Premier affichage, sans filtre */
