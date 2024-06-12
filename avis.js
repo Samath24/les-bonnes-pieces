@@ -5,7 +5,9 @@ export function ajoutListenersAvis() {
     piecesElements[i].addEventListener("click", async function (event) {
       const id = event.target.dataset.id;
       console.log(id);
-      /* fetch(`http://localhost:8081/pieces/${id}/avis`); */
+      let avisPromise = await fetch(`http://localhost:5500/pieces/${id}/avis`);
+      let avis = await avisPromise.json();
+      console.log(avis);
     });
   }
 }
